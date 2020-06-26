@@ -1,0 +1,5 @@
+{
+    "jwtPrivateKey": "unsecureKey",
+    "db": "mongodb://localhost/finalModel",
+    "port": "3900"
+}
