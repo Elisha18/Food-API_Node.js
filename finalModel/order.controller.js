@@ -26,16 +26,24 @@ function handleError(res, err) {
 }
   
 // // Get list of orders
-router.get("/",[auth, role.hasRoles("User")],(req, res)=>{
-    Order.find({ user: req.user._id })
-      .sort("-created_at")
-      .populate("restaurant")
-      .exec(function(err, orders) {
-        if (err) {
-          return handleError(res, err);
-        }
-        return res.send(orders);
-      });
+router.get("/", async(req, res)=>{
+    // Order.find({ user: req.user._id })
+    //   .sort("-created_at")
+    //   .populate("restaurant")
+    //   .exec(function(err, orders) {
+    //     if (err) {
+    //       return handleError(res, err);
+    //     }
+    //     return res.send(orders);
+    //   });
+
+    const orders = await Order
+    .find()
+    .populate("user")
+    .populate("restaurant")
+    .populate("meal")
+    
+    res.send(orders);
 });
 
 // // Get list of restaurant orders

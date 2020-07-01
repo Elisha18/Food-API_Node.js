@@ -8,6 +8,7 @@ const auth = require('./finalModel/auth');
 const express = require('express');
 const app = express();
 
+require("./startup/cors")(app);
 
 if(!config.get('jwtPrivateKey')){
   console.log("FATAL ERROR: jwtPrivateKey is not defined");

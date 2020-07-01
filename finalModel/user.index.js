@@ -29,7 +29,9 @@ router.post('/',async (req,res)=>{
 
     //adding JSON web token in payload
     const token = user.generateAuthToken();
-    res.header('x-auth-token',token).send(_.pick(user,["_id","name","email"]));
+    res.header('x-auth-token',token)
+        .header("access-control-expose-headers","x-auth-token")
+        .send(_.pick(user,["_id","name","email"]));
 });
 
 router.put('/:id',[auth, role.hasRoles("User")], async (req,res)=>{

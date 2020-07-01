@@ -11,17 +11,22 @@ function handleError(res, err) {
 }
 
 // Get list of restaurants
-router.get("/",[auth, role.hasRoles("User")],(req, res)=> {
-    Restaurant.find(function(err, restaurant) {
-      if (err) {
-        return handleError(res, err);
-      }
-      return res.send(restaurant);
-    });
+router.get("/",async (req, res)=> {
+    // Restaurant.find(function(err, restaurant) {
+    //   if (err) {
+    //     return handleError(res, err);
+    //   }
+    //   return res.send(restaurant);
+    // });
+    const restaurant = await Restaurant.find()
+    .select("-__v")
+    .sort("name");
+  res.send(restaurant);
 });
 
 // Get a single restaurants
-router.get("/:id",[auth, role.hasRoles("User")],(req, res)=> {
+//,[auth, role.hasRoles("User")]
+router.get("/:id",(req, res)=> {
     Restaurant.findById(req.params.id, function(err, restaurant) {
       if (err) {
         return handleError(res, err);
@@ -36,6 +41,7 @@ router.get("/:id",[auth, role.hasRoles("User")],(req, res)=> {
 
 
 // Create a restraunt
+//[auth,role.hasRoles("Admin")],
 router.post("/",[auth,role.hasRoles("Admin")],(req, res)=> {
     Restaurant.create(req.body, function(err, restaurant) {
       if (err) {
@@ -46,6 +52,7 @@ router.post("/",[auth,role.hasRoles("Admin")],(req, res)=> {
 });
 
 // Updates an existing restaurant in the DB.
+//,[auth,role.hasRoles("Admin")]
 router.put("/:id",[auth,role.hasRoles("Admin")],(req, res)=> {
     if (req.body._id) {
       delete req.body._id;

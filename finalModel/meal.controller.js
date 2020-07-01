@@ -11,7 +11,7 @@ function handleError(res, err) {
 }
 
 //Get list of meals
-router.get("/",[auth, role.hasRoles("User")],async(req, res)=> {
+router.get("/",async(req, res)=> {
     const meal = await Meal
         .find()
         .populate("restaurant");
@@ -35,7 +35,8 @@ router.get("/:id", [auth, role.hasRoles("User")],async (req, res)=> {
 });
 
 //create a Meal
-router.post("/", [auth, role.hasRoles("Admin")],async(req,res)=>{
+//
+router.post("/",[auth, role.hasRoles("Admin")],async(req,res)=>{
     Restaurant.create(req.body.restaurant,function(err){
         if(err){
             handleError(res,err);
